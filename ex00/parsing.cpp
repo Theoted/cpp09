@@ -7,7 +7,7 @@ std::string strtrim(std::string str) {
     return str;
 }
 
-// PARSE DATA BASE
+// PARSE DATABASE
 int getDateFromDataLine(const std::string &line, std::string *date)
 {
     size_t commaPos = line.find(',');

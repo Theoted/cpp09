@@ -12,10 +12,7 @@ int main(int ac, char **av)
         return (handleError("./btc infile"));
 
     std::map<const std::string, double> data;
-    std::map<const std::string, double> infile;
 
     convertDataToMap(data);
-    convertInfileToMap(infile, av[1]);
-    printDataMap(infile);
     return (0);
 }
