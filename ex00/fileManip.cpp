@@ -8,4 +8,3 @@ int openFile(std::ifstream &infile, const char *file)
 
     return (0);
 }
-
