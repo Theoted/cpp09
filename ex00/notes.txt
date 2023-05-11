@@ -1,0 +1,20 @@
+BTC
+A corriger: 
+    - lettres dans la value
+
+11111-01-09  => 1 = 0 outside db
+1111-01-09  => 1 = 0 outside db
+
+emptry line -> maybe skip them
+
+2012-0002-0002-> ordre asci mauvais pour comparaison des clefs
+
+2012-01-1a2 | 1 reconnait la date
+
+RPN
+
+PmergeMe :
+
+Pas le bon algo +ratio
+
+overflow->  met -1 dans tes containers

@@ -2,7 +2,7 @@
 #include <stack>
 #include <sstream>
 
-void printStack(std::stack<int> tmp)
+void printStack(std::stack<float> tmp)
 {
     std::cout << "stack: \n";
     while (!tmp.empty())
@@ -25,9 +25,19 @@ int isDigits(const std::string &str)
     return (0);
 }
 
-int evaluateRPN(std::string rpnExpr)
+bool stackSizeError(std::stack<float> st)
 {
-    std::stack<int> st;
+    if (st.size() == 0)
+    {
+        std::cerr << "Error: bad input" << std::endl;
+        return (false);
+    }
+    return (true);
+}
+
+float evaluateRPN(std::string rpnExpr)
+{
+    std::stack<float> st;
     std::stringstream ss(rpnExpr);
 
     while (!ss.eof())
@@ -35,22 +45,18 @@ int evaluateRPN(std::string rpnExpr)
         std::string token;
         ss >> token;
 
-        if (isDigits(token)
-            && (token != "*" && token != "/" && token != "+" && token != "-"))
-        {
-            std::cerr << "Error: bad input\n";
-            return (-1);
-        }
-
-        std::cout << "token = " << token << std::endl;
         if (token == "+" || token == "-" || token == "*" || token == "/")
         {
-            int op2 = st.top();
-            st.pop();
-            int op1 = st.top();
+            if (!stackSizeError(st))
+                return (-1);
+            float op2 = st.top();
             st.pop();
 
-            std::cout << "op1 = " << op1 << " op2 = " << op2 << std::endl;
+            if (!stackSizeError(st))
+                return (-1);
+            float op1 = st.top();
+            st.pop();
+
 
             if (token == "+")
                 st.push(op1 + op2);
@@ -63,14 +69,26 @@ int evaluateRPN(std::string rpnExpr)
         }
         else
         {
-            int operand;
+            int operand = 0;
             std::stringstream(token) >> operand;
+
+            if (isDigits(token) || operand > 9 || operand < 0)
+            {
+                std::cerr << "Error: bad input" << std::endl;
+                return (-1);
+            }
+
+            if (operand == 0 && token == "")
+                continue;
+
             st.push(operand);
         }
-        printStack(st);
-        std::cout << "\n\n";
     }
-    return (st.top());
+    if (st.size() == 1)
+        std::cout << st.top() << std::endl;
+    else
+        std::cout << "Error: bad notation" << std::endl;
+    return (0);
 }
 
 int main(int ac, char **av)
@@ -80,7 +98,6 @@ int main(int ac, char **av)
         std::cerr << "./RPN [expression]" << std::endl;
         return (-1);
     }
-    int result = evaluateRPN(av[1]);
-    std::cout << result << std::endl;
+    evaluateRPN(av[1]);
     return (0);
 }

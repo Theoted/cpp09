@@ -41,18 +41,61 @@ int getDateFromInfileLine(const std::string &line, std::string *date)
     return (0);
 }
 
-int getValueFromInfileLine(const std::string &line, double *value)
+static bool isNumber(const std::string s_value)
+{
+    int i = 0;
+    int point_count = 0;
+    int n_count= 0;
+    while (s_value[i] == ' ' && s_value[i])
+        i++;
+    while(s_value[i])
+    {
+        if (s_value[i] == '.')
+        {
+            if (point_count == 1)
+                return(false);
+            point_count++;
+        }
+        if ((s_value[i] < 48 || s_value[i] > 57) && s_value[i] != '.')
+            return (false);
+        if ((s_value[i] >= 48 && s_value[i] <= 57))
+            n_count++;
+        i++;
+    }
+    if (n_count == 0)
+        return (false);
+    return (true);
+}
+
+int getValueFromInfileLine(const std::string &line, double *value, std::string *error)
 {
     size_t pipePos = line.find('|');
     if (pipePos == std::string::npos)
     {
         *value = -1;
+        *error = "No value";
         return (-1);
     }
 
     const std::string s_value = line.substr(pipePos + 1, line.size() - pipePos);
-    *value = std::strtod(s_value.c_str(), NULL);
+    if (!isNumber(s_value))
+    {
+        *value = -1;
+        *error = s_value;
+        return (-1);
+    }
 
+    *value = std::strtod(s_value.c_str(), NULL);
+    if (*value < 0)
+    {
+        *error = "not a positive number";
+        return (-1);
+    }
+    if (*value > 1000)
+    {
+        *error = "too large a number";
+        return (-1);
+    }
     return (0);
 }
 

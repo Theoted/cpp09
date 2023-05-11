@@ -22,6 +22,8 @@ int main(int ac, char **av)
     std::string line;
     std::string date;
 
+    std::string error;
+
     double value;
     double dataValue;
     while (getline(infile, line))
@@ -30,17 +32,15 @@ int main(int ac, char **av)
             continue ;
         
         getDateFromInfileLine(line, &date);
-        getValueFromInfileLine(line, &value);
-
         if (!isValidDate(date))
         {
             std::cerr << "Error: bad input => " << date << std::endl;
             continue ;
         }
 
-        if (value < 0 || value > 1000)
+        if (getValueFromInfileLine(line, &value, &error) == -1)
         {
-            std::cerr << "Error: Invalid value => " << value << std::endl;
+            std::cerr << "Error: Invalid value => " << error << std::endl;
             continue ;
         }
 

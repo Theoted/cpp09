@@ -14,11 +14,11 @@ void printVec(const Container vec)
     for(std::size_t i = 0; i < vec.size(); i++)
     {
         std::cout << vec[i] << ' ';
-        if (i >= 3)
-        {
-            std::cout << "[...]";
-            return ;
-        }
+        // if (i >= 3)
+        // {
+        //     std::cout << "[...]";
+        //     return ;
+        // }
     }
     std::cout << std::endl;
 }
