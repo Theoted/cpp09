@@ -24,6 +24,24 @@ void printVec(const Container vec)
 }
 
 template<typename Container>
+Container insertSort(Container a)
+{
+    for (size_t i = 1; i < a.size(); i++)
+    {
+        int key = a[i];
+        int j = i - 1;
+        while (j >= 0 && a[j] > key)
+        {
+            int tmp = a[j];
+            a[j] = a[j + 1];
+            a[j + 1] = tmp;
+            j--;
+        }
+    }
+    return (a);
+}
+
+template<typename Container>
 Container merge(Container a, Container b)
 {
     Container c;
@@ -57,6 +75,8 @@ Container merge(Container a, Container b)
     return (c);
 }
 
+int k = 0;
+
 template<typename Container>
 Container mergeSort(Container vec)
 {
@@ -70,7 +90,7 @@ Container mergeSort(Container vec)
     typename Container::iterator begin = vec.begin();
     typename Container::iterator half = vec.begin() + half_size;
     typename Container::iterator end = vec.end();
-
+    
     Container first_half(begin, half);
     Container second_half(half, end);
 
@@ -123,30 +143,32 @@ int main(int ac, char **av)
     vec = createContainer<std::vector<int> >(av);
     deq = createContainer<std::deque<int> >(av);
 
-    std::cout << "before: ";
-    printVec(vec);
-    std::cout << "\n";
+    // insertSort(vec);
 
-    // SORT USING VEC
-    start_t = clock();
+    // std::cout << "before: ";
+    // printVec(vec);
+    // std::cout << "\n";
+
+    // // SORT USING VEC
+    // start_t = clock();
     vec = mergeSort(vec);
-    end_t = clock();
-    total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+    // end_t = clock();
+    // total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
 
-    // SORT USING DEQ
-    start_t1 = clock();
-    deq = mergeSort(deq);
-    end_t1 = clock();
-    total_t1 = (double)(end_t1 - start_t1) / CLOCKS_PER_SEC;
+    // // SORT USING DEQ
+    // start_t1 = clock();
+    // deq = mergeSort(deq);
+    // end_t1 = clock();
+    // total_t1 = (double)(end_t1 - start_t1) / CLOCKS_PER_SEC;
 
-    std::cout << "after: ";
-    printVec(vec);
-    std::cout << "\n";
+    // std::cout << "after: ";
+    // printVec(vec);
+    // std::cout << "\n";
 
-    std::cout << std::fixed;
-    std::cout << std::setprecision(6);
-    std::cout << "Time to process a range of  " << n << " elements with std::vector :  " << total_t << " us"<< std::endl;
-    std::cout << "Time to process a range of  " << n << " elements with std::deque  :  " << total_t1 << " us"<< std::endl;
+    // std::cout << std::fixed;
+    // std::cout << std::setprecision(6);
+    // std::cout << "Time to process a range of  " << n << " elements with std::vector :  " << total_t << " us"<< std::endl;
+    // std::cout << "Time to process a range of  " << n << " elements with std::deque  :  " << total_t1 << " us"<< std::endl;
 
 
     return (0);

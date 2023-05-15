@@ -117,35 +117,41 @@ std::string formatDate(time_t date)
 
 bool checkDateFormat(std::string myDate)
 {
-    int count = 1;
-    size_t i = 0;
+    int count = 0;
+    size_t i;
 
     for (i = 0; i < myDate.size(); i++)
     {
-        std::cout << myDate.at(i) << std::endl;
         if (myDate.at(i) == '-')
             break ;
         count++;
     }
+
     if (count != 4)
         return (false);
 
-    count = 1;
-    i++;
-
-    for (size_t j = 0; j < 2; j++)
+    count = 0;
+    while (++i < myDate.size())
     {
-        for (i = 0; i < myDate.size(); i++)
-        {
-            if (myDate.at(i) == '-')
-                break ;
-            count++;
-        }
-        if (count != 2)
-            return (false);
-        count = 1;
-        i++;
+        if (myDate[i] && myDate[i] == '-')
+            break ;
+        count++;
     }
+    if (count != 2)
+        return (false);
+
+    count = 0;
+    while (++i < myDate.size())
+    {
+        if (myDate[i] && myDate[i] == '-')
+            break ;
+        if (myDate[i] == ' ')
+            break ;
+        count++;
+    }
+    if (count != 2)
+        return (false);
+    
     return (true);
 }
 
