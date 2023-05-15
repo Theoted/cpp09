@@ -1,9 +1,10 @@
 #include "main.hpp"
 
-std::string strtrim(std::string str) {
-    const char* whitespace_type = " ";
+std::string strtrim(std::string str)
+{
+    const char *whitespace_type = " ";
     str.erase(str.find_last_not_of(whitespace_type) + 1);
-    str.erase(0,str.find_first_not_of(whitespace_type));
+    str.erase(0, str.find_first_not_of(whitespace_type));
     return str;
 }
 
@@ -13,7 +14,7 @@ int getDateFromDataLine(const std::string &line, std::string *date)
     size_t commaPos = line.find(',');
     if (commaPos == std::string::npos)
         return (-1);
-    
+
     *date = line.substr(0, commaPos);
     return (0);
 }
@@ -36,7 +37,7 @@ int getDateFromInfileLine(const std::string &line, std::string *date)
     size_t pipePos = line.find('|');
     if (pipePos == std::string::npos)
         return (-1);
-    
+
     *date = line.substr(0, pipePos);
     return (0);
 }
@@ -45,15 +46,15 @@ static bool isNumber(const std::string s_value)
 {
     int i = 0;
     int point_count = 0;
-    int n_count= 0;
+    int n_count = 0;
     while (s_value[i] == ' ' && s_value[i])
         i++;
-    while(s_value[i])
+    while (s_value[i])
     {
         if (s_value[i] == '.')
         {
             if (point_count == 1)
-                return(false);
+                return (false);
             point_count++;
         }
         if ((s_value[i] < 48 || s_value[i] > 57) && s_value[i] != '.')
@@ -114,6 +115,40 @@ std::string formatDate(time_t date)
     return (std::string(buffer));
 }
 
+bool checkDateFormat(std::string myDate)
+{
+    int count = 1;
+    size_t i = 0;
+
+    for (i = 0; i < myDate.size(); i++)
+    {
+        std::cout << myDate.at(i) << std::endl;
+        if (myDate.at(i) == '-')
+            break ;
+        count++;
+    }
+    if (count != 4)
+        return (false);
+
+    count = 1;
+    i++;
+
+    for (size_t j = 0; j < 2; j++)
+    {
+        for (i = 0; i < myDate.size(); i++)
+        {
+            if (myDate.at(i) == '-')
+                break ;
+            count++;
+        }
+        if (count != 2)
+            return (false);
+        count = 1;
+        i++;
+    }
+    return (true);
+}
+
 bool isValidDate(std::string myDate, std::string *error)
 {
     for (size_t i = 0; i < myDate.size(); i++)
@@ -130,7 +165,13 @@ bool isValidDate(std::string myDate, std::string *error)
     {
         *error = "bad date";
         return false;
-    }    
+    }
+
+    if (checkDateFormat(myDate) == false)
+    {
+        *error = "bad format";
+        return false;
+    }
 
     std::stringstream ss(myDate);
     int year;
@@ -141,6 +182,6 @@ bool isValidDate(std::string myDate, std::string *error)
         *error = "outside db";
         return (false);
     }
-    
+
     return (true);
 }
