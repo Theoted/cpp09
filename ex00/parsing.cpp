@@ -100,26 +100,6 @@ int getValueFromInfileLine(const std::string &line, double *value, std::string *
 }
 
 // PARSE DATE
-bool isValidDate(std::string myDate)
-{
-    int year, month, day;
-    char delim;
-    std::stringstream ss(myDate);
-    ss >> year >> delim >> month >> delim >> day;
-    if (ss.fail()) {
-        return false;
-    }
-
-    struct tm date;
-    std::memset(&date, 0, sizeof(struct tm));
-    date.tm_year = year - 1900;
-    date.tm_mon = month - 1;
-    date.tm_mday = day;
-    
-    time_t t = mktime(&date);
-    return (t != -1) && (date.tm_year == year - 1900) && (date.tm_mon == month - 1) && (date.tm_mday == day);
-}
-
 time_t parseDate(const std::string &dateStr)
 {
     struct tm timeStruct = {};
@@ -132,4 +112,35 @@ std::string formatDate(time_t date)
     char buffer[11];
     std::strftime(buffer, sizeof(buffer), "%Y-%m-%d", localtime(&date));
     return (std::string(buffer));
+}
+
+bool isValidDate(std::string myDate, std::string *error)
+{
+    for (size_t i = 0; i < myDate.size(); i++)
+    {
+        if (!std::isdigit(myDate[i]) && myDate[i] != '-' && myDate[i] != ' ')
+        {
+            *error = "bad date";
+            return (false);
+        }
+    }
+
+    time_t date = parseDate(myDate);
+    if (date == -1)
+    {
+        *error = "bad date";
+        return false;
+    }    
+
+    std::stringstream ss(myDate);
+    int year;
+    ss >> year;
+
+    if (year > 2023 || year < 2009)
+    {
+        *error = "outside db";
+        return (false);
+    }
+    
+    return (true);
 }

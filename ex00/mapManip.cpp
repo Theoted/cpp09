@@ -41,6 +41,7 @@ double findDataNode(const std::string &myDate, std::map<const std::string, doubl
         
         if (std::abs(diff) < std::abs(difftime(date, closestDate)))
             closestDate = currDate;
+
     }
 
     return (data.find(formatDate(closestDate))->second);

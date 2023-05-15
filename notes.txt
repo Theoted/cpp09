@@ -1,0 +1,12 @@
+BTC
+
+2012-0002-0002-> ordre asci mauvais pour comparaison des clefs
+
+
+RPN
+
+PmergeMe :
+
+Pas le bon algo +ratio
+
+overflow->  met -1 dans tes containers

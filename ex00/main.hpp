@@ -28,6 +28,6 @@ int getValueFromDataLine(const std::string &line, double *value);
 int getDateFromInfileLine(const std::string &line, std::string *date);
 int getValueFromInfileLine(const std::string &line, double *value, std::string *error);
 
-bool isValidDate(std::string myDate);
+bool isValidDate(std::string myDate, std::string *error);
 time_t parseDate(const std::string &dateStr);
 std::string formatDate(time_t date);

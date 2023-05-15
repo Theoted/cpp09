@@ -28,13 +28,18 @@ int main(int ac, char **av)
     double dataValue;
     while (getline(infile, line))
     {
+        error = "";
+        date = "";
+
+        if (line == "")
+            continue ;
         if (line == "date | value")
             continue ;
         
         getDateFromInfileLine(line, &date);
-        if (!isValidDate(date))
+        if (!isValidDate(date, &error))
         {
-            std::cerr << "Error: bad input => " << date << std::endl;
+            std::cerr << "Error: " << error << " => " << date << std::endl;
             continue ;
         }
 
