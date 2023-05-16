@@ -4,7 +4,7 @@ SRCS	=	main.cpp
 HEADERS	=	
 
 CC		=	c++
-CFLAGS	=	-std=c++98 #-Wall -Wextra -Werror
+CFLAGS	=	-std=c++98 -Wall -Wextra -Werror -fsanitize=address
 
 OBJS	=	$(SRCS:.cpp=.o)
 
