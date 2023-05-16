@@ -8,107 +8,110 @@
 #include <time.h>
 #include <iomanip>
 
-template<typename Container>
+template <typename Container>
 void printVec(const Container vec)
 {
-    for(std::size_t i = 0; i < vec.size(); i++)
+    for (std::size_t i = 0; i < vec.size(); i++)
     {
         std::cout << vec[i] << ' ';
-        // if (i >= 3)
-        // {
-        //     std::cout << "[...]";
-        //     return ;
-        // }
+        if (i >= 3)
+        {
+            std::cout << "[...]";
+            return ;
+        }
     }
     std::cout << std::endl;
 }
 
-template<typename Container>
-Container insertSort(Container a)
+template <typename Container>
+void merge(Container &cont, int l, int m, int r)
 {
-    for (size_t i = 1; i < a.size(); i++)
-    {
-        int key = a[i];
-        int j = i - 1;
-        while (j >= 0 && a[j] > key)
-        {
-            int tmp = a[j];
-            a[j] = a[j + 1];
-            a[j + 1] = tmp;
-            j--;
-        }
-    }
-    return (a);
-}
+    Container Left;
+    Container Middle;
 
-template<typename Container>
-Container merge(Container a, Container b)
-{
-    Container c;
+    size_t n1 = m - l + 1;
+    size_t n2 = r - m;
 
-    while (a.size() > 0 && b.size() > 0)
+    for (size_t i = 0; i < n1; i++)
+        Left.push_back(cont[l + i]);
+    for (size_t j = 0; j < n2; j++)
+        Middle.push_back(cont[j + m + 1]);
+
+    size_t i = 0;
+    size_t j = 0;
+    size_t k = l;
+
+    while (i < n1 && j < n2)
     {
-        if (a[0] > b[0])
+        if (Left[i] <= Middle[j])
         {
-            c.push_back(b[0]);
-            b.erase(b.begin() + 0);
+            cont[k] = Left[i];
+            i++;
         }
         else
         {
-            c.push_back(a[0]);
-            a.erase(a.begin() + 0);
+            cont[k] = Middle[j];
+            j++;
         }
+        k++;
     }
-
-    while (a.size() > 0)
+    while (i < n1)
     {
-        c.push_back(a[0]);
-        a.erase(a.begin() + 0);
+        cont[k] = Left[i];
+        i++;
+        k++;
     }
-
-    while (b.size() > 0)
+    while (j < n2)
     {
-        c.push_back(b[0]);
-        b.erase(b.begin() + 0);
+        cont[k] = Middle[j];
+        j++;
+        k++;
     }
-
-    return (c);
 }
 
-int k = 0;
-
-template<typename Container>
-Container mergeSort(Container vec)
+template <typename Container>
+void insertSort(Container &cont, int l, int r)
 {
-    std::size_t len = vec.size();
+    for (int i = l; i < r; i++)
+    {
+        int tmp = cont[i + 1];
+        int j = i + 1;
+        while (j > l && cont[j - 1] > tmp)
+        {
+            cont[j] = cont[j - 1];
+            j--;
+        }
+        cont[j] = tmp;
+    }
+}
 
-    if (len == 1)
-        return (vec);
-
-    std::size_t const half_size = vec.size() / 2;
-
-    typename Container::iterator begin = vec.begin();
-    typename Container::iterator half = vec.begin() + half_size;
-    typename Container::iterator end = vec.end();
-    
-    Container first_half(begin, half);
-    Container second_half(half, end);
-
-    first_half = mergeSort(first_half);
-    second_half = mergeSort(second_half);
-    return (merge(first_half, second_half));
+template <typename Container>
+void mergeSort(Container &cont, int l, int r)
+{
+    if (r - l > 4)
+    {
+        int m = (l + r) / 2;
+        mergeSort(cont, l, m);
+        mergeSort(cont, m + 1, r);
+        merge(cont, l, m, r);
+    }
+    else
+    {
+        insertSort(cont, l, r);
+    }
 }
 
 int isDigits(const char *str)
 {
-    for (int i = 0; str[i]; i++) {
+    for (int i = 0; str[i]; i++)
+    {
         if (!(str[i] >= 48 && str[i] <= 57 && str[i] != '-' && str[i] != '+'))
             return (1);
     }
     return (0);
 }
 
-template<typename Container>
+template <typename Container>
 Container createContainer(char **input)
 {
     int i = 1;
@@ -143,33 +146,31 @@ int main(int ac, char **av)
     vec = createContainer<std::vector<int> >(av);
     deq = createContainer<std::deque<int> >(av);
 
-    // insertSort(vec);
 
-    // std::cout << "before: ";
-    // printVec(vec);
-    // std::cout << "\n";
+    std::cout << "before: ";
+    printVec(vec);
+    std::cout << "\n";
 
-    // // SORT USING VEC
-    // start_t = clock();
-    vec = mergeSort(vec);
-    // end_t = clock();
-    // total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+    // SORT USING VEC
+    start_t = clock();
+    mergeSort(vec, 0, vec.size() - 1);
+    end_t = clock();
+    total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
 
-    // // SORT USING DEQ
-    // start_t1 = clock();
-    // deq = mergeSort(deq);
-    // end_t1 = clock();
-    // total_t1 = (double)(end_t1 - start_t1) / CLOCKS_PER_SEC;
+    // SORT USING DEQ
+    start_t1 = clock();
+    mergeSort(deq, 0, deq.size() - 1);
+    end_t1 = clock();
+    total_t1 = (double)(end_t1 - start_t1) / CLOCKS_PER_SEC;
 
-    // std::cout << "after: ";
-    // printVec(vec);
-    // std::cout << "\n";
+    std::cout << "after: ";
+    printVec(vec);
+    std::cout << "\n";
 
-    // std::cout << std::fixed;
-    // std::cout << std::setprecision(6);
-    // std::cout << "Time to process a range of  " << n << " elements with std::vector :  " << total_t << " us"<< std::endl;
-    // std::cout << "Time to process a range of  " << n << " elements with std::deque  :  " << total_t1 << " us"<< std::endl;
-
+    std::cout << std::fixed;
+    std::cout << std::setprecision(6);
+    std::cout << "Time to process a range of  " << n << " elements with std::vector :  " << total_t << " us"<< std::endl;
+    std::cout << "Time to process a range of  " << n << " elements with std::deque  :  " << total_t1 << " us"<< std::endl;
 
     return (0);
 }
