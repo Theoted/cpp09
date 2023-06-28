@@ -13,7 +13,8 @@ int main(int ac, char **av)
 
     std::map<const std::string, double> data;
 
-    convertDataToMap(data);
+    if (convertDataToMap(data))
+        return (1);
     
     std::ifstream infile;
 

@@ -14,6 +14,19 @@ int convertDataToMap(std::map<const std::string, double> &data)
     std::ifstream   dataBase("data.csv");
     std::string     date;
     double          value;
+    struct stat     s;
+
+    if (stat("data.csv", &s) == 0)
+    {
+        if (s.st_mode & S_IFDIR)
+        {
+            return (handleError("data.csv is a directory"));
+        }
+    }
+    else
+    {
+        return (handleError("data.csv not found"));
+    }
 
     while (getline(dataBase, line))
     {

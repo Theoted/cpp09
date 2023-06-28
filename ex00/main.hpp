@@ -10,6 +10,9 @@
 #include <sstream>
 #include <cmath>
 #include <cstring>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 // MAIN
 int handleError(const std::string &err);
