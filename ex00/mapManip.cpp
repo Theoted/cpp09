@@ -28,6 +28,10 @@ int convertDataToMap(std::map<const std::string, double> &data)
         return (handleError("data.csv not found"));
     }
 
+    if (isDatabaseValid() == false) {
+        return handleError("invalid database");
+    }
+
     while (getline(dataBase, line))
     {
         if (line == "date,exchange_rate")

@@ -19,6 +19,7 @@ int handleError(const std::string &err);
 
 // FILE MANIP
 int openFile(std::ifstream &infile, const char *file);
+bool isDatabaseValid();
 
 // MAP MANIP
 int convertDataToMap(std::map<const std::string, double> &data);
