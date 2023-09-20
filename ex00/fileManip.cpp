@@ -42,12 +42,8 @@ static bool isValidDatabaseEntry(const std::string& entry) {
 
     std::string datePart = entry.substr(0, commaPos);
     std::string valuePart = entry.substr(commaPos + 1);
-f (!isValidDateFormat(datePart))
+    (!isValidDateFormat(datePart))
         return (false);
-
-
-dfqf
-
 
     if (!isValidValue(valuePart))
         return (false);
