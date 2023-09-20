@@ -1,5 +1,5 @@
 NAME	=	btc
-SRCS	=	main.cpp fileManip.cpp mapManip.cpp parsing.cpp
+SRCS	=	main.cpp fileManip.cpp mapManip.cpp parsing.cpp trim.cpp
 
 HEADERS	=	main.hpp
 

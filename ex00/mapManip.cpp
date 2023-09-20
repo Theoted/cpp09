@@ -44,22 +44,38 @@ int convertDataToMap(std::map<const std::string, double> &data)
     return (0);
 }
 
+double findNDataNode(int i, std::map<const std::string, double> &data) {
+    int j = -1;
+    std::map<const std::string, double>::iterator it = data.begin();
+    time_t dateBeforeClosest;
+
+    while (++j < i - 1) {
+        ++it;
+    }
+
+    dateBeforeClosest = parseDate(it->first);
+    return (data.find(formatDate(dateBeforeClosest))->second);
+}
+
 double findDataNode(const std::string &myDate, std::map<const std::string, double> &data)
 {
     std::map<const std::string, double>::iterator it = data.begin();
     
     time_t date = parseDate(myDate);
     time_t closestDate = parseDate(it->first);
+    int i = 0;
 
     for (; it != data.end(); ++it) {
         
         time_t currDate = parseDate(it->first);
         double diff = difftime(date, currDate);
-        
-        if (std::abs(diff) < std::abs(difftime(date, closestDate)))
+        if (std::abs(diff) < std::abs(difftime(date, closestDate))) {
+            i++;
             closestDate = currDate;
-
+        }
     }
-
-    return (data.find(formatDate(closestDate))->second);
+    if (static_cast<size_t>(i) == data.size() - 1) {
+        return (data.find(formatDate(closestDate))->second);
+    }
+    return (findNDataNode(i, data));
 }

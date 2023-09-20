@@ -79,14 +79,16 @@ int getValueFromInfileLine(const std::string &line, double *value, std::string *
     }
 
     const std::string s_value = line.substr(pipePos + 1, line.size() - pipePos);
-    if (!isNumber(s_value))
+    const std::string trimmed_s_value = trim(s_value, 32);
+
+    if (!isNumber(trimmed_s_value))
     {
         *value = -1;
-        *error = s_value;
+        *error = trimmed_s_value;
         return (-1);
     }
 
-    *value = std::strtod(s_value.c_str(), NULL);
+    *value = std::strtod(trimmed_s_value.c_str(), NULL);
     if (*value < 0)
     {
         *error = "not a positive number";

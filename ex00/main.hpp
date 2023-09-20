@@ -35,3 +35,4 @@ int getValueFromInfileLine(const std::string &line, double *value, std::string *
 bool isValidDate(std::string myDate, std::string *error);
 time_t parseDate(const std::string &dateStr);
 std::string formatDate(time_t date);
+std::string trim(const std::string &toTrim, const char c);

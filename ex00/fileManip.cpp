@@ -10,6 +10,9 @@ int openFile(std::ifstream &infile, const char *file)
 }
 
 static bool isValidDateFormat(const std::string& date) {
+    if (date.length() != 10)
+        return (false);
+
     std::istringstream dateStream(date);
     int year, month, day;
     char dash1, dash2;
@@ -25,24 +28,23 @@ static bool isValidDateFormat(const std::string& date) {
 }
 
 static bool isValidValue(const std::string& value) {
-    std::istringstream valueStream(value);
-    int integerValue;
-    if (!(valueStream >> integerValue))
-        return (false);
-    char remainingCharacter;
-    if (valueStream.get(remainingCharacter))
-        return (false); // There should be no additional characters.
-    return (true);
+    if (value.find_first_not_of("0123456789.") == std::string::npos) {
+	    return (true);
+    }
+    else {
+	    return (false);
+    }
 }
 
 static bool isValidDatabaseEntry(const std::string& entry) {
+
     size_t commaPos = entry.find(',');
     if (commaPos == std::string::npos)
         return (false);
 
     std::string datePart = entry.substr(0, commaPos);
     std::string valuePart = entry.substr(commaPos + 1);
-    (!isValidDateFormat(datePart))
+    if (!isValidDateFormat(datePart))
         return (false);
 
     if (!isValidValue(valuePart))
@@ -60,7 +62,7 @@ bool isDatabaseValid() {
     {
         i++;
         if (i == 0)
-            continue;
+            continue ;
         if (isValidDatabaseEntry(line) == false)
             return (false);
     }
