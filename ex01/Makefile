@@ -3,7 +3,7 @@ SRCS	=	main.cpp
 
 HEADERS	=	
 
-CC		=	c++
+CC		=	g++
 CFLAGS	=	-std=c++98 -Wall -Wextra -Werror
 
 OBJS	=	$(SRCS:.cpp=.o)

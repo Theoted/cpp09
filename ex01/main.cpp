@@ -64,8 +64,13 @@ float evaluateRPN(std::string rpnExpr)
                 st.push(op1 - op2);
             else if (token == "*")
                 st.push(op1 * op2);
-            else if (token == "/")
+            else if (token == "/") {
+                if (op1 == 0 || op2 == 0) {
+                    std::cerr << "Diveded by 0 is undifined" << std::endl;
+                    return (0);
+                }
                 st.push(op1 / op2);
+            }
         }
         else
         {

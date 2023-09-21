@@ -3,7 +3,7 @@ SRCS	=	main.cpp fileManip.cpp mapManip.cpp parsing.cpp trim.cpp
 
 HEADERS	=	main.hpp
 
-CC		=	c++
+CC		=	g++
 CFLAGS	=	-std=c++98 -Wall -Wextra -Werror -fsanitize=address
 
 OBJS	=	$(SRCS:.cpp=.o)

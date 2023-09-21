@@ -1,19 +1,19 @@
 BTC
 
 ✅ rpl data.csv avec un dossier du meme nom -> segfault
-pareil dossier vide
-autre chose avec .csv modifie avec que des val de merde
+✅ pareil dossier vide
+✅ autre chose avec .csv modifie avec que des val de merde
 
-00 -> pris en compte dans les dates mois / jours
-tu prends la date la plus proche et pas celle qui precede la date demande
-si espace avant ou apres les data | valu dans le infile -> bad format ou bad value
+✅ 00 -> pris en compte dans les dates mois / jours
+✅ tu prends la date la plus proche et pas celle qui precede la date demande
+✅ si espace avant ou apres les data | valu dans le infile -> bad format ou bad value
 2015-01-02    
 
 limite de db -> tu depasse un peu en dessous et un peu au dessus                                                                                                                                             | 1 => conserve les espaces dans ta string de date et les affiche a l'output
 
 RPN
 
-peut etre mettre une condition pour eviter div par 0
+✅ peut etre mettre une condition pour eviter div par 0
 
 PmergeMe :
 
@@ -25,6 +25,3 @@ overflow->  met -1 dans tes containers
 
 peut etre faire deux set de fonction pour tes containers pour + correspondre a la consigne
 
-
-
-ceci est un test
