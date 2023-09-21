@@ -143,29 +143,29 @@ int main(int ac, char **av)
     clock_t start_t, end_t, start_t1, end_t1;
     double total_t, total_t1;
 
-    vec = createContainer<std::vector<int> >(av);
-    deq = createContainer<std::deque<int> >(av);
-
-
+    std::vector<int> baseVec = createContainer<std::vector<int> >(av);
     std::cout << "before: ";
-    printVec(vec);
+    printVec(baseVec);
     std::cout << "\n";
 
     // SORT USING VEC
     start_t = clock();
+    vec = createContainer<std::vector<int> >(av);
     mergeSort(vec, 0, vec.size() - 1);
     end_t = clock();
     total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
 
     // SORT USING DEQ
     start_t1 = clock();
+    deq = createContainer<std::deque<int> >(av);
     mergeSort(deq, 0, deq.size() - 1);
     end_t1 = clock();
     total_t1 = (double)(end_t1 - start_t1) / CLOCKS_PER_SEC;
 
     std::cout << "after: ";
-    printVec(vec);
+    printVec(deq);
     std::cout << "\n";
+
 
     std::cout << std::fixed;
     std::cout << std::setprecision(6);
