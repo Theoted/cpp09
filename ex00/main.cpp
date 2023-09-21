@@ -39,6 +39,7 @@ int main(int ac, char **av)
         
         getDateFromInfileLine(line, &date);
         date = trim(date, 32);
+
         if (!isValidDate(date, &error))
         {
             std::cerr << "Error: " << error << " => " << date << std::endl;

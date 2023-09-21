@@ -35,8 +35,6 @@ int getValueFromDataLine(const std::string &line, double *value)
 int getDateFromInfileLine(const std::string &line, std::string *date)
 {
     size_t pipePos = line.find('|');
-    if (pipePos == std::string::npos)
-        return (-1);
 
     *date = line.substr(0, pipePos);
     return (0);
@@ -117,68 +115,14 @@ std::string formatDate(time_t date)
     return (std::string(buffer));
 }
 
-bool checkDateFormat(std::string myDate)
-{
-    int count = 0;
-    size_t i;
-
-    for (i = 0; i < myDate.size(); i++)
-    {
-        if (myDate.at(i) == '-')
-            break ;
-        count++;
-    }
-
-    if (count != 4)
-        return (false);
-
-    count = 0;
-    while (++i < myDate.size())
-    {
-        if (myDate[i] && myDate[i] == '-')
-            break ;
-        count++;
-    }
-    if (count != 2)
-        return (false);
-
-    count = 0;
-    while (++i < myDate.size())
-    {
-        if (myDate[i] && myDate[i] == '-')
-            break ;
-        if (myDate[i] == ' ')
-            break ;
-        count++;
-    }
-    if (count != 2)
-        return (false);
-    
-    return (true);
-}
-
 bool isValidDate(std::string myDate, std::string *error)
 {
-    for (size_t i = 0; i < myDate.size(); i++)
-    {
-        if (!std::isdigit(myDate[i]) && myDate[i] != '-' && myDate[i] != ' ')
-        {
-            *error = "bad date";
-            return (false);
-        }
-    }
+    const char *date = myDate.c_str();
+    struct tm tm;
 
-    time_t date = parseDate(myDate);
-    if (date == -1)
-    {
-        *error = "bad date";
-        return false;
-    }
-
-    if (checkDateFormat(myDate) == false)
-    {
-        *error = "bad format";
-        return false;
+    if (!strptime(date, "%Y-%m-%d", &tm)) {
+        *error = "invalid date";
+        return (false);
     }
 
     std::stringstream ss(myDate);

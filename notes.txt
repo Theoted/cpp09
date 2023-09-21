@@ -7,7 +7,9 @@ BTC
 ✅ 00 -> pris en compte dans les dates mois / jours
 ✅ tu prends la date la plus proche et pas celle qui precede la date demande
 ✅ si espace avant ou apres les data | valu dans le infile -> bad format ou bad value
-2015-01-02    
+2015-01-02
+
+✅ Une date incoherente fonctionne: 2021-42-42
 
 limite de db -> tu depasse un peu en dessous et un peu au dessus                                                                                                                                             | 1 => conserve les espaces dans ta string de date et les affiche a l'output
 

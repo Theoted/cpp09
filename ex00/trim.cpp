@@ -5,6 +5,9 @@ std::string trim(const std::string &toTrim, const char c) {
     int i = 0;
     int j = 0;
 
+    if (toTrim.size() == 0)
+        return (toTrim);
+
     while (toTrim.at(i) == c) {
         i++;
     }
